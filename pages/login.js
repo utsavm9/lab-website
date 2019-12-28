@@ -1,10 +1,17 @@
+const deepAccess = require("../util/utils");
+
 class Login extends React.Component {
+    static async getInitialProps(context) {
+        return { errorMessage: context.query.failReason };
+    }
+
     render() {
         return (
             <>
-                <h1>Login Page</h1>
+                <h1>Login Page </h1>
 
-                <form action="login" method="POST">
+                <form action="/login" method="POST">
+                    <p>{this.props.errorMessage}</p>
                     <div>
                         <label htmlFor="email">Email:</label>
                         <input

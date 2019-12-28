@@ -1,10 +1,15 @@
 class Register extends React.Component {
+    static async getInitialProps(context) {
+        return { errorMessage: context.query.failReason };
+    }
+
     render() {
         return (
             <>
                 <h1>Register Page</h1>
+                <p>{this.props.errorMessage}</p>
 
-                <form action="api/register" method="POST">
+                <form action="/register" method="POST">
                     <div>
                         <label htmlFor="name">Name:</label>
                         <input

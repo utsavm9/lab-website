@@ -15,6 +15,7 @@ function setAuthentication(server, nextApp) {
     server.post("/login", logInOrFlashMessage);
 
     server.post("/register", async (req, res) => {
+        console.log(users.find(user => user.email === req.body.email));
         if (!users.find(user => user.email === req.body.email)) {
             try {
                 const hashedPassword = await bcrypt.hash(req.body.password, 10);

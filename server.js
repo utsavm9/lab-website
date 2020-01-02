@@ -6,7 +6,9 @@ const passport = require("passport");
 const session = require("express-session");
 
 //Importing all parts of our divided backend
-const setAuthentication = require("./backend/auth")
+const httpsPort = require("./config").ports.https;
+const setAuthentication = require("./backend/auth");
+const { setUpDatabase, closeDatabase } = require("./backend/database");
 
 const dev = process.env.NODE_ENV !== "production";
 const nextApp = nextJS({ dev });
@@ -31,17 +33,19 @@ nextApp
 
         // Our own routes and middlewares
         setAuthentication(server, nextApp);
+        setUpDatabase();
 
         // All the rest of paths are managed by NextJS
         server.all("*", nextRequestHandler);
 
         //Starting up the server
-        server.listen(3000, err => {
+        server.listen(httpsPort, err => {
             if (err) throw err;
-            console.log("Ready on port 3000");
+            console.log("Ready for requests on port", httpsPort);
         });
     })
     .catch(ex => {
         console.log(ex.stack);
+        closeDatabase();
         process.exit(1);
     });

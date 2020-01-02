@@ -7,7 +7,7 @@
 -- Run this script using the command:
 --    cat create_schema.sql | mysql -u root
 
-use database experiment_data;
+use experiment_data;
 
 -- User's table
 create table users (

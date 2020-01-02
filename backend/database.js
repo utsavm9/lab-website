@@ -35,18 +35,25 @@ function closeDatabase() {
 /**
  * Find users by their email
  * @param {string} email - Email to be looked up
- * @returns {Array} - All records in Users table that matched
+ * @returns {Promise} A promise
  */
 function getUserByEmail(email) {
-    database.query(
-        "select * from users where email=?",
-        email,
-        (error, result, field) => {
-            if (error) throw error;
-            console.log(result);
-            console.log(field);
-        }
-    );
+    return new Promise((resolve, reject) => {
+        database.query("select * from users where email=?", email, (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+        });
+    });
 }
 
-module.exports = { setUpDatabase, closeDatabase };
+function addUser(firstname, lastname, email, password) {
+    const row = [firstname, lastname, email, password];
+    return new Promise((resolve, reject) => {
+        database.query("insert into users(firstname, lastname, email, password) values (?)", [row], (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+        });
+    });
+}
+
+module.exports = { setUpDatabase, closeDatabase, getUserByEmail, addUser };

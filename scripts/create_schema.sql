@@ -6,7 +6,7 @@
 
 -- Run this script using the command:
 --    cat create_schema.sql | mysql -u root
-
+create database experiment_data;
 use experiment_data;
 
 -- User's table
@@ -15,6 +15,7 @@ create table users (
     firstname varchar(255) not null,
     lastname varchar(255) not null,
     email varchar(255) not null,
-    password varchar(255) not null,
-    primary key(id)
+    password varchar(60) not null,
+    primary key(id),
+    unique(email)
 );

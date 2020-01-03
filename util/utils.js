@@ -10,14 +10,11 @@
  * @param {Array.<string>} array - An array containing the properties we will apply one after the other
  */
 
-function deepAccess(accumulator, array) {
+exports.deepAccess = (accumulator, array) => {
     if (!array) return null;
 
     return array.reduce(
-        (accumulated, nextItem) =>
-            accumulated && accumulated[nextItem] ? accumulated[nextItem] : null,
+        (accumulated, nextItem) => (accumulated && accumulated[nextItem] ? accumulated[nextItem] : null),
         accumulator
     );
-}
-
-export default deepAccess;
+};

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import deepAccess from "../util/utils";
+import { deepAccess } from "../util/utils";
 
 class Index extends React.Component {
     static async getInitialProps(context) {
@@ -9,13 +9,11 @@ class Index extends React.Component {
             history.go();
         }
 
-        return { firstname: deepAccess(context, ["req", "user", "name"]) };
+        return { firstname: deepAccess(context, ["req", "user", "firstname"]) };
     }
 
     render() {
-        const loggedInMessage = this.props.firstname
-            ? this.props.firstname + " logged in!"
-            : "Login now!";
+        const loggedInMessage = this.props.firstname ? this.props.firstname + " logged in!" : "Login now!";
 
         return (
             <>

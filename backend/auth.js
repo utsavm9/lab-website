@@ -86,3 +86,4 @@ function setAuthentication(server, nextApp) {
 }
 
 module.exports = setAuthentication;
+//Testing

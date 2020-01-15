@@ -10,10 +10,10 @@ function initPassport(passport, getUserByEmail, getUserById) {
      */
     const authenticateUser = async (email, password, done) => {
         //Find the user from the database
-        const user = getUserByEmail(email);
+        const user = await getUserByEmail(email);
 
         //User not found
-        if (user === undefined) {
+        if (user === null) {
             return done(null, false, "No user with that email");
         }
 
@@ -35,7 +35,11 @@ function initPassport(passport, getUserByEmail, getUserById) {
 
     passport.use(new Strategy({ usernameField: "email" }, authenticateUser));
     passport.serializeUser((user, done) => done(null, user.id));
-    passport.deserializeUser((id, done) => done(null, getUserById(id)));
+    passport.deserializeUser(async (id, done) => {
+        let userRow = await getUserById(id);
+        if (userRow) return done(null, userRow);
+        else done(new Error("User not found"));
+    });
 }
 
 module.exports = initPassport;

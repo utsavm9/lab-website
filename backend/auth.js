@@ -4,40 +4,64 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const database = require("./database");
 
-const users = [];
-
 function setAuthentication(server, nextApp) {
     initPassport(
         passport,
-        email => users.find(user => user.email === email),
-        id => users.find(user => user.id === id)
+        async email => {
+            try {
+                const userRow = await database.getUserByEmail(email);
+                if (userRow.length <= 0) return null;
+                return {
+                    id: userRow[0].id,
+                    firstname: userRow[0].firstname,
+                    lastname: userRow[0].lastname,
+                    email: userRow[0].email,
+                    password: userRow[0].password
+                };
+            } catch (error) {
+                console.log(error);
+                return null;
+            }
+        },
+        async id => {
+            try {
+                const userRow = await database.getUserById(id);
+                if (userRow.length <= 0) return null;
+                return {
+                    id: userRow[0].id,
+                    firstname: userRow[0].firstname,
+                    lastname: userRow[0].lastname,
+                    email: userRow[0].email,
+                    password: userRow[0].password
+                };
+            } catch (error) {
+                console.log(error);
+                return null;
+            }
+        }
     );
 
     server.post("/login", logInOrFlashMessage);
 
     server.post("/register", async (req, res) => {
-        const r = await database.getUserByEmail("utsavm9@gmail.com");
-        console.log(r);
-        if (!users.find(user => user.email === req.body.email)) {
-            try {
-                const hashedPassword = await bcrypt.hash(req.body.password, 10);
-                users.push({
-                    id: Date.now().toString(),
-                    name: req.body.name,
-                    email: req.body.email,
-                    password: hashedPassword
+        try {
+            //Not registering user whose email is in the database
+            const userRecord = await database.getUserByEmail(req.body.email);
+            if (userRecord.length > 0)
+                return nextApp.render(req, res, "/register", {
+                    failReason: "Email already registered. Try logging in."
                 });
-                database.addUser("utsav", "munendra", "utsavm9@gmail.com", "2").then(
-                    r => console.log(r),
-                    e => console.log(e)
-                );
-                res.redirect("/login");
-            } catch {
-                res.redirect("/register");
-            }
-        } else {
+
+            // New user
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            await database.addUser(req.body.firstname, req.body.lastname, req.body.email, hashedPassword);
+            return nextApp.render(req, res, "/login", {
+                failReason: req.body.firstname + " registered successfully."
+            });
+        } catch (e) {
+            console.log(e);
             return nextApp.render(req, res, "/register", {
-                failReason: "Email already registered. Try logging in."
+                failReason: "An error occured in the server. Please retry for contact website administrators."
             });
         }
     });

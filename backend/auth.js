@@ -2,6 +2,7 @@
 const initPassport = require("../util/passport-config");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+const database = require("./database");
 
 const users = [];
 
@@ -15,6 +16,8 @@ function setAuthentication(server, nextApp) {
     server.post("/login", logInOrFlashMessage);
 
     server.post("/register", async (req, res) => {
+        const r = await database.getUserByEmail("utsavm9@gmail.com");
+        console.log(r);
         if (!users.find(user => user.email === req.body.email)) {
             try {
                 const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -24,6 +27,10 @@ function setAuthentication(server, nextApp) {
                     email: req.body.email,
                     password: hashedPassword
                 });
+                database.addUser("utsav", "munendra", "utsavm9@gmail.com", "2").then(
+                    r => console.log(r),
+                    e => console.log(e)
+                );
                 res.redirect("/login");
             } catch {
                 res.redirect("/register");
@@ -46,19 +53,16 @@ function setAuthentication(server, nextApp) {
      */
     function logInOrFlashMessage(req, res, next) {
         // Get a next() function from passport
-        const genNextFunction = passport.authenticate(
-            "local",
-            (error, user, info) => {
-                if (error) {
-                    return next(error);
-                } else if (info) {
-                    // Available within login.js as context.query.fairReason
-                    return nextApp.render(req, res, "/login", {
-                        failReason: info
-                    });
-                } else req.logIn(user, e => (e ? next(e) : res.redirect("/")));
-            }
-        );
+        const genNextFunction = passport.authenticate("local", (error, user, info) => {
+            if (error) {
+                return next(error);
+            } else if (info) {
+                // Available within login.js as context.query.fairReason
+                return nextApp.render(req, res, "/login", {
+                    failReason: info
+                });
+            } else req.logIn(user, e => (e ? next(e) : res.redirect("/")));
+        });
         genNextFunction(req, res, next);
     }
 

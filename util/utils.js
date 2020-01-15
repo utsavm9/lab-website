@@ -1,4 +1,4 @@
-//File for JS functions which will be used throughout
+//File for JS functions which will be used throughout the project
 
 /**
  * Applies all the properties in the array to the object, returning null if at any point the properties

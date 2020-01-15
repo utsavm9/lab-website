@@ -7,31 +7,14 @@ const database = require("./database");
 function setAuthentication(server, nextApp) {
     initPassport(
         passport,
-        async email => {
+        async worker_id => {
             try {
-                const userRow = await database.getUserByEmail(email);
+                const userRow = await database.getUserByWorker_id(worker_id);
                 if (userRow.length <= 0) return null;
                 return {
-                    id: userRow[0].id,
                     firstname: userRow[0].firstname,
                     lastname: userRow[0].lastname,
-                    email: userRow[0].email,
-                    password: userRow[0].password
-                };
-            } catch (error) {
-                console.log(error);
-                return null;
-            }
-        },
-        async id => {
-            try {
-                const userRow = await database.getUserById(id);
-                if (userRow.length <= 0) return null;
-                return {
-                    id: userRow[0].id,
-                    firstname: userRow[0].firstname,
-                    lastname: userRow[0].lastname,
-                    email: userRow[0].email,
+                    worker_id: userRow[0].worker_id,
                     password: userRow[0].password
                 };
             } catch (error) {
@@ -45,16 +28,16 @@ function setAuthentication(server, nextApp) {
 
     server.post("/register", async (req, res) => {
         try {
-            //Not registering user whose email is in the database
-            const userRecord = await database.getUserByEmail(req.body.email);
+            //Not registering user whose Worker ID is in the database
+            const userRecord = await database.getUserByWorker_id(req.body.worker_id);
             if (userRecord.length > 0)
                 return nextApp.render(req, res, "/register", {
-                    failReason: "Email already registered. Try logging in."
+                    failReason: "Worker ID already registered. Try logging in."
                 });
 
             // New user
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
-            await database.addUser(req.body.firstname, req.body.lastname, req.body.email, hashedPassword);
+            await database.addUser(req.body.firstname, req.body.lastname, req.body.worker_id, hashedPassword);
             return nextApp.render(req, res, "/login", {
                 failReason: req.body.firstname + " registered successfully."
             });

@@ -11,11 +11,10 @@ use experiment_data;
 
 -- User's table
 create table users (
-    id int not null auto_increment, 
+    primary key(worker_id),
     firstname varchar(255) not null,
     lastname varchar(255) not null,
-    email varchar(255) not null,
+    worker_id varchar(255) not null,
     password varchar(60) not null,
-    primary key(id),
-    unique(email)
+    unique(worker_id)
 );

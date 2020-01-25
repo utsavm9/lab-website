@@ -33,27 +33,13 @@ exports.closeDatabase = () => {
 };
 
 /**
- * Find users by their email
- * @param {string} email - Email to be looked up
+ * Find users by their Worker id
+ * @param {string} worker_id - Worker ID to be looked up
  * @returns {Promise} A promise which resolves into the query result
  */
-exports.getUserByEmail = email => {
+exports.getUserByWorker_id = worker_id => {
     return new Promise((resolve, reject) => {
-        database.query("select * from users where email=?", email, (error, result) => {
-            if (error) return reject(error);
-            resolve(result);
-        });
-    });
-};
-
-/**
- * Find users by their id
- * @param {int} id - An id to be looked up
- * @returns {Promise} A promise which resolves into the query result
- */
-exports.getUserById = id => {
-    return new Promise((resolve, reject) => {
-        database.query("select * from users where id=?", id, (error, result) => {
+        database.query("select * from users where worker_id=?", worker_id, (error, result) => {
             if (error) return reject(error);
             resolve(result);
         });
@@ -64,13 +50,13 @@ exports.getUserById = id => {
  * Adds the given user into the table users
  * @param {string} firstname
  * @param {string} lastname
- * @param {string} email
+ * @param {string} worker_id
  * @param {string} password - The already hashed password
  */
-exports.addUser = (firstname, lastname, email, password) => {
-    const row = [firstname, lastname, email, password];
+exports.addUser = (firstname, lastname, worker_id, password) => {
+    const row = [firstname, lastname, worker_id, password];
     return new Promise((resolve, reject) => {
-        database.query("insert into users(firstname, lastname, email, password) values (?)", [row], (error, result) => {
+        database.query("insert into users(firstname, lastname, worker_id, password) values (?)", [row], (error, result) => {
             if (error) return reject(error);
             resolve(result);
         });

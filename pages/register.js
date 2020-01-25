@@ -19,8 +19,8 @@ class Register extends React.Component {
                         <input type="text" id="lastname" name="lastname" required></input>
                     </div>
                     <div>
-                        <label htmlFor="email">Email:</label>
-                        <input type="email" id="email" name="email" required></input>
+                        <label htmlFor="worker_id">Mechanical Turk Worker ID:</label>
+                        <input type="text" id="worker_id" name="worker_id" required></input>
                     </div>
                     <div>
                         <label htmlFor="pasword">Password:</label>

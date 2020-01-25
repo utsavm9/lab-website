@@ -47,6 +47,20 @@ exports.getUserByWorker_id = worker_id => {
 };
 
 /**
+ * Find user's experiment data
+ * @param {string} worker_id - Worker ID to be looked up
+ * @returns {Promise} A promise which resolves into the query result
+ */
+exports.getUserExperimentByWorker_id = worker_id => {
+    return new Promise((resolve, reject) => {
+        database.query("select * from users_experiments where worker_id=?", worker_id, (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+        });
+    });
+};
+
+/**
  * Adds the given user into the table users
  * @param {string} firstname
  * @param {string} lastname

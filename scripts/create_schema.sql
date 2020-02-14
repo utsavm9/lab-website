@@ -14,7 +14,7 @@ create table users (
     firstname varchar(255) not null,
     lastname varchar(255) not null,
     worker_id varchar(255) not null,
-    password varchar(60) not null,
+    password_hash varchar(60) not null,
     unique(worker_id)
 );
 -- User's experiments
@@ -36,7 +36,8 @@ create table responses (
     primary key(trial_id),
     trial_id INT not null,
     question_id INT not null,
-    response_time TIME (0) not null,
+    start_time TIME (0) not null,
+    end_time TIME (0) not null,
     response varchar(255) 
 );
 -- Questions

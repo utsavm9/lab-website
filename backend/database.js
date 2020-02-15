@@ -86,29 +86,29 @@ exports.addUser = (firstname, lastname, worker_id, password_hash) => {
  * @param {string}  choice_4
  */
 
-exports.getMcqByQuestionsId(question_id, question, choice_1, choice_2, choice_3, choice_4) => {
-    return new Promise((resolve, reject) => {
-        database.query("select * from mcq where question_id=?", question_id, (error, result) => {
-            if (error) return reject(error);
-            resolve(result);
-        });
-    });
-};
+// exports.getMcqByQuestionsId(question_id, question, choice_1, choice_2, choice_3, choice_4) => {
+//     return new Promise((resolve, reject) => {
+//         database.query("select * from mcq where question_id=?", question_id, (error, result) => {
+//             if (error) return reject(error);
+//             resolve(result);
+//         });
+//     });
+// };
 
 /**
  * finds a text from the text table by question_id
- * @param {integer} question_id
- * @param {string} question
- * @param {string} hint
- */
-exports.getTextbyQuestionId(question_id, question, hint) => {
-    return new Promise((resolve, reject) => {
-        database.query("select * from text where question_id=?", question_id, (error, result) => {
-            if (error) return reject(error);
-            resolve(result);
-        });
-    });
-};
+//  * @param {integer} question_id
+//  * @param {string} question
+//  * @param {string} hint
+//  */
+// exports.getTextbyQuestionId(question_id, question, hint) => {
+//     return new Promise((resolve, reject) => {
+//         database.query("select * from text where question_id=?", question_id, (error, result) => {
+//             if (error) return reject(error);
+//             resolve(result);
+//         });
+//     });
+// };
 
 /**
  * finds an image from the image table by question_id 

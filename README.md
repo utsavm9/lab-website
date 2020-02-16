@@ -12,3 +12,10 @@
 
 * `design.docx`: All changes to the database schema must to reflected in this document
       and the `create_schema.sql`.
+* `create_schema.sql`: updated and added new tables for each aspect outlined in the design
+* `test_data`: test for inserting data into the tables
+
+## Authors
+* Parham Hajzavar
+* Frank Xing
+* Utsav Munendra

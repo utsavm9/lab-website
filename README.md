@@ -16,8 +16,8 @@
 * `test_data`: test for inserting data into the tables
 
 ## Test Data
-* worker_id: `1234` lastname: `Smith`, firstname: `John`, password: `p1`
-* worker_id: `5678` lastname: `George`, firstname: `Peter`, password: `p2`
+* worker_id: `1234`, firstname: `Frank`, lastname: `Xing`, password: `1`
+* worker_id: `5678`, firstname: `Parham`, lastname: `Hajzavar`,  password: `2`
 
 ## Authors
 * Parham Hajzavar

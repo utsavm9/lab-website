@@ -2,9 +2,9 @@
 use experiment_data;
 
 insert into users (worker_id, lastname, firstname, password_hash) 
-    values ('1234', 'Terry', 'John', '$2b$10$BWUMJY9Y2PDXhIfe6q57Nu5RMLVsMuys90CamIldJSSIsq3JEK3CC');
+    values ('1234', 'Xing', 'Frank', '$2b$10$BWUMJY9Y2PDXhIfe6q57Nu5RMLVsMuys90CamIldJSSIsq3JEK3CC');
 insert into users (worker_id, lastname, firstname, password_hash) 
-    values ('5678', 'Lampard', 'Frank', '$2b$10$TQTjr.O8xO8xKtrI/q4ydutdZJe/ouLHH.edf6N/mzLRNDJnmORDy');
+    values ('5678', 'Hajzavar', 'Parham', '$2b$10$TQTjr.O8xO8xKtrI/q4ydutdZJe/ouLHH.edf6N/mzLRNDJnmORDy');
 
 insert into questions (question_id, question_type)
     values ('1', 'm');

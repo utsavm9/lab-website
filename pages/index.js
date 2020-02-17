@@ -30,6 +30,11 @@ class Index extends React.Component {
                         <a>Register</a>
                     </Link>
                 </div>
+                <div>
+                    <Link href="/Questions">
+                        <a>Questions</a>
+                    </Link>
+                </div>
                 <br />
                 <form action="/logout" method="POST">
                     <button type="submit">Log Out</button>

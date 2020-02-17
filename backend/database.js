@@ -47,18 +47,69 @@ exports.getUserByWorker_id = worker_id => {
 };
 
 /**
- * Adds the given user into the table users
- * @param {string} firstname
- * @param {string} lastname
- * @param {string} worker_id
- * @param {string} password - The already hashed password
+ * Find user's experiment data
+ * @param {string} worker_id - Worker ID to be looked up
+ * @returns {Promise} A promise which resolves into the query result
  */
-exports.addUser = (firstname, lastname, worker_id, password) => {
-    const row = [firstname, lastname, worker_id, password];
+exports.getUserExperimentByWorker_id = worker_id => {
     return new Promise((resolve, reject) => {
-        database.query("insert into users(firstname, lastname, worker_id, password) values (?)", [row], (error, result) => {
+        database.query("select * from users_experiments where worker_id=?", worker_id, (error, result) => {
             if (error) return reject(error);
             resolve(result);
         });
     });
 };
+
+/**
+ * Adds the given user into the table users
+ * @param {string} firstname
+ * @param {string} lastname
+ * @param {string} worker_id
+ * @param {string} password_hash - The already hashed password
+ */
+exports.addUser = (firstname, lastname, worker_id, password_hash) => {
+    const row = [firstname, lastname, worker_id, password_hash];
+    return new Promise((resolve, reject) => {
+        database.query("insert into users(firstname, lastname, worker_id, password_hash) values (?)", [row], (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+        });
+    });
+};
+/**
+ * finds the mcq question from the mcq table by question_id
+ * @param {integer} question_id
+ * @param {string}  question
+ * @param {string}  choice_1
+ * @param {string}  choice_2
+ * @param {string}  choice_3
+ * @param {string}  choice_4
+ */
+
+// exports.getMcqByQuestionsId(question_id, question, choice_1, choice_2, choice_3, choice_4) => {
+//     return new Promise((resolve, reject) => {
+//         database.query("select * from mcq where question_id=?", question_id, (error, result) => {
+//             if (error) return reject(error);
+//             resolve(result);
+//         });
+//     });
+// };
+
+/**
+ * finds a text from the text table by question_id
+//  * @param {integer} question_id
+//  * @param {string} question
+//  * @param {string} hint
+//  */
+// exports.getTextbyQuestionId(question_id, question, hint) => {
+//     return new Promise((resolve, reject) => {
+//         database.query("select * from text where question_id=?", question_id, (error, result) => {
+//             if (error) return reject(error);
+//             resolve(result);
+//         });
+//     });
+// };
+
+/**
+ * finds an image from the image table by question_id 
+ */

@@ -8,7 +8,13 @@ const session = require("express-session");
 //Importing all parts of our divided backend
 const httpsPort = require("./config").ports.https;
 const setAuthentication = require("./backend/auth");
-const { setUpDatabase, closeDatabase } = require("./backend/database");
+const { setUpDatabase, 
+        closeDatabase, 
+        getPromiseAsync,
+        getMcqByQuestionsId,
+        getTextbyQuestionId,
+        getImageByQuestionId
+     } = require("./backend/database");
 
 const dev = process.env.NODE_ENV !== "production";
 const nextApp = nextJS({ dev });
@@ -34,6 +40,7 @@ nextApp
         // Our own routes and middlewares
         setAuthentication(server, nextApp);
         setUpDatabase();
+        getPromiseAsync('1');
 
         // All the rest of paths are managed by NextJS
         server.all("*", nextRequestHandler);
@@ -43,6 +50,8 @@ nextApp
             if (err) throw err;
             console.log("Ready for requests on port", httpsPort);
         });
+
+
     })
     .catch(ex => {
         console.log(ex.stack);

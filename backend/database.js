@@ -118,4 +118,14 @@ exports.getImageByQuestionId = (question_id) => {
     });
 };
 
+// Awaiting on mcq, text, and image functions and returning an object of question
+async function getPromiseAsync(question_id) {
+// exports.getPromiseAsync = async () => {
+    const mcqFunc = await getMcqByQuestionsId(question_id);
+    const textFunc = await getTextByQuestionsId(question_id);
+    const imageFunc = await getImageByQuestionsId(question_id);
 
+    var arrQuestions = [mcqFunc, textFunc, imageFunc];
+    arrQuestions.values();
+};
+module.exports.getPromiseAsync = getPromiseAsync;

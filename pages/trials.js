@@ -1,11 +1,24 @@
+import fetch from 'isomorphic-unfetch'
+
 class Trials extends React.Component {
     static async getInitialProps(context) {
-        return { errorMessage: context.query.failReason };
+
+        const API_URL = 'https://api.github.com'
+        async function fetcher(path) {
+          const res = await fetch(API_URL + path)
+          const json = await res.json()
+          return json
+        }
+        return useSWR('/repos/zeit/next.js', fetcher)
+        
     }
 
+ 
     render() {
+       
         return (
             <>
+            <div>Next stars: {this.data.stargazers_count}</div>
                 <h1>Trials Page</h1>
                 <p>{this.props.errorMessage}</p>
 

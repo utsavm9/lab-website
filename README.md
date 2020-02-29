@@ -15,6 +15,29 @@
 * `create_schema.sql`: updated and added new tables for each aspect outlined in the design
 * `test_data`: test for inserting data into the tables
 
+## Test Data
+* worker_id: `1234`, firstname: `Frank`, lastname: `Xing`, password: `1`
+* worker_id: `5678`, firstname: `Parham`, lastname: `Hajzavar`,  password: `2`
+
+## Code Formatting Settings
+Use VSCode Extension Prettier with these settings from File > Preferences > Settings > Open Settings (JSON) icon:
+```
+"[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+},
+"[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+},
+"[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+},
+"[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+},
+"prettier.tabWidth": 4,
+"prettier.printWidth": 120,
+```
+
 ## Authors
 * Parham Hajzavar
 * Frank Xing

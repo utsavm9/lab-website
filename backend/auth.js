@@ -15,7 +15,7 @@ function setAuthentication(server, nextApp) {
                     firstname: userRow[0].firstname,
                     lastname: userRow[0].lastname,
                     worker_id: userRow[0].worker_id,
-                    password: userRow[0].password
+                    password_hash: userRow[0].password_hash
                 };
             } catch (error) {
                 console.log(error);

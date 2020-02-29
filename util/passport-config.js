@@ -20,7 +20,7 @@ function initPassport(passport, getUserByWorker_id) {
         //User found
         try {
             //User password match
-            if (await bcrypt.compare(password, user.password)) {
+            if (await bcrypt.compare(password, user.password_hash)) {
                 return done(null, user);
             }
 

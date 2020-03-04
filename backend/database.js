@@ -76,14 +76,15 @@ exports.addUser = (firstname, lastname, worker_id, password_hash) => {
         });
     });
 };
+
 /**
  * mcq: finds the mcq question from the mcq table by question_id
  * @param {integer} question_id
  * @returns {Promise} A promise which resolves into the query result
  */
-exports.getMcqByQuestionsId = (question_id) => {
+getMcqByQuestionId = (question_id_arr) => {
     return new Promise((resolve, reject) => {
-        database.query("SELECT * FROM mcq WHERE question_id=?", question_id, (error, result) => {
+        database.query("SELECT * FROM mcq WHERE question_id IN (?)", [question_id_arr], (error, result) => {
             if (error) return reject(error);
             resolve(result);
         });
@@ -95,9 +96,9 @@ exports.getMcqByQuestionsId = (question_id) => {
 * @param {integer} question_id
 * @returns {Promise} A promise which resolves into the query result
 */
-exports.getTextbyQuestionId = (question_id) => {
+getTextbyQuestionId = (question_id_arr) => {
     return new Promise((resolve, reject) => {
-        database.query("SELECT * FROM text WHERE question_id=?", question_id, (error, result) => {
+        database.query("SELECT * FROM text WHERE question_id IN (?)", [question_id_arr], (error, result) => {
             if (error) return reject(error);
             resolve(result);
         });
@@ -109,23 +110,53 @@ exports.getTextbyQuestionId = (question_id) => {
  * @param {integer} question_id
  * @returns {Promise} A promise which resolves into the query result
  */
-exports.getImageByQuestionId = (question_id) => {
+getImageByQuestionId = (question_id_arr) => {
     return new Promise((resolve, reject) => {
-        database.query("SELECT * FROM image WHERE question_id=?", question_id, (error, result) => {
+        database.query("SELECT * FROM image WHERE question_id IN (?)", [question_id_arr], (error, result) => {
             if (error) return reject(error);
             resolve(result);
         });
     });
 };
 
-// Awaiting on mcq, text, and image functions and returning an object of question
-async function getPromiseAsync(question_id) {
-// exports.getPromiseAsync = async () => {
-    const mcqFunc = await getMcqByQuestionsId(question_id);
-    const textFunc = await getTextByQuestionsId(question_id);
-    const imageFunc = await getImageByQuestionsId(question_id);
+/**
+ * take in experiment_id (not an array), 
+ * Awaiting on mcq, text, and image functions and returning an object of question
+ * @param {integer} experiment_id
+ */
+async function ExportQuestionsById(experiment_id) {
+    //compute question_ids based on 1 experiment_id
+    const output = new Promise((resolve, reject) => {
+        database.query("SELECT * FROM experiments_questions WHERE experiment_id=?", experiment_id, (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+        });
+    });
+    
+    const output_rows = await output;
+    console.log(output_rows);
+    var arr = [];
+    for (let i=0; i<output_rows.length; i++) {
+        //make object to be passed into array
+        const obj = {
+            question_order: output_rows[i].question_order,
+            question_id: output_rows[i].question_id
+        };
+       arr.push(obj);
+    }
+    console.log(arr);
 
-    var arrQuestions = [mcqFunc, textFunc, imageFunc];
-    arrQuestions.values();
+    // return output_rows;
+    return output_rows;
+
+
+    // const mcqFunc = await getMcqByQuestionId(question_id);
+    // const textFunc = await getTextbyQuestionId(question_id);
+    // const imageFunc = await getImageByQuestionId(question_id);
+
+    // var arrQuestions = [mcqFunc, textFunc, imageFunc];
+    // return arrQuestions;
+
+
 };
-module.exports.getPromiseAsync = getPromiseAsync;
+module.exports.ExportQuestionsById = ExportQuestionsById;

@@ -10,10 +10,7 @@ const httpsPort = require("./config").ports.https;
 const setAuthentication = require("./backend/auth");
 const { setUpDatabase, 
         closeDatabase, 
-        getPromiseAsync,
-        getMcqByQuestionsId,
-        getTextbyQuestionId,
-        getImageByQuestionId
+        ExportQuestionsById
      } = require("./backend/database");
 
 const dev = process.env.NODE_ENV !== "production";
@@ -22,7 +19,7 @@ const nextRequestHandler = nextApp.getRequestHandler();
 
 nextApp
     .prepare()
-    .then(() => {
+    .then(async () => {
         const server = express();
 
         //Middlewares
@@ -40,7 +37,11 @@ nextApp
         // Our own routes and middlewares
         setAuthentication(server, nextApp);
         setUpDatabase();
-        getPromiseAsync('1');
+        
+        const x = await ExportQuestionsById('5');
+        console.log(x);
+
+
 
         // All the rest of paths are managed by NextJS
         server.all("*", nextRequestHandler);

@@ -3,10 +3,14 @@ class TextQuestions extends React.Component {
         return (
             <>
                 <hr />
-                <form action="/textqs" onSubmit={this.props.submit_function}>
+                <form action="/mcqqs">
                     <label for="question">{this.props.question_text} </label>
                     <br />
-                    <input type="text" placeholder={this.props.hint_text} />
+                    <br />
+                    <input type="radio" /> {this.props.choice1} <br />
+                    <input type="radio" /> {this.props.choice2} <br />
+                    <input type="radio" /> {this.props.choice3} <br />
+                    <input type="radio" /> {this.props.choice4} <br />
                     <input type="submit" value="Submit" />
                 </form>
             </>
